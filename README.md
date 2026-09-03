@@ -34,7 +34,27 @@ npm run lint      # oxlint
 npm run preview   # gebautes dist/ lokal ansehen
 ```
 
-## Deployment
+## Deployment (GitHub Pages)
 
-`npm run build` erzeugt ein statisches `dist/`-Verzeichnis, das sich z.B. per
-GitHub Pages, Netlify oder Vercel hosten lässt.
+Die App wird automatisch auf GitHub Pages veröffentlicht: Ein GitHub-Actions-
+Workflow (`.github/workflows/deploy.yml`) baut bei jedem Push auf
+`claude/haushaltrechner-app-m25ujg` die App (`npm run build`) und deployt den
+Inhalt von `dist/`.
+
+Damit die Seite live ist, muss Pages in den Repo-Einstellungen einmalig auf
+Actions gestellt werden:
+
+1. Repo auf GitHub öffnen → **Settings → Pages**
+2. Unter **Build and deployment → Source** die Option **GitHub Actions**
+   auswählen (nicht "Deploy from a branch")
+3. Danach im Tab **Actions** den Workflow **Deploy to Pages** einmal laufen
+   lassen (oder einfach erneut pushen)
+
+Die Seite ist anschließend unter
+`https://<dein-github-benutzername>.github.io/Haushaltsrechner/` erreichbar.
+
+`npm run build` erzeugt lokal ein statisches `dist/`-Verzeichnis, das sich
+auch anderweitig hosten lässt (Netlify, Vercel, …). Der `base`-Pfad in
+`vite.config.ts` ist aktuell auf `/Haushaltsrechner/` gesetzt (passend zum
+Repo-Namen als GitHub-Pages-Projektseite) – bei einem anderen Hosting-Pfad
+muss dieser Wert entsprechend angepasst werden.

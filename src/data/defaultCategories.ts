@@ -1,30 +1,37 @@
-import type { Category } from '../types';
+import type { EntryType } from '../types';
+
+interface CategorySeed {
+  name: string;
+  type: EntryType;
+  group_name: string | null;
+}
 
 /**
  * Mirrors the categories used in the original Google-Sheets Haushaltsrechner
- * (Eingabetabelle + Finanzfluss sheets), so existing habits carry over 1:1.
+ * (Eingabetabelle + Finanzfluss sheets). Inserted once per user on first
+ * login (see useBudget) – ids are then assigned by the database.
  */
-export const defaultCategories: Category[] = [
+export const defaultCategorySeed: CategorySeed[] = [
   // Einnahmen
-  { id: 'gehalt', name: 'Gehalt', type: 'income', isDefault: true },
-  { id: 'sonstige-einnahmen', name: 'Sonstige Einnahmen', type: 'income', isDefault: true },
+  { name: 'Gehalt', type: 'income', group_name: null },
+  { name: 'Sonstige Einnahmen', type: 'income', group_name: null },
 
   // Ausgaben – feste Kosten
-  { id: 'wohnen', name: 'Wohnen (Miete/Nebenkosten)', type: 'expense', group: 'Fixkosten', isDefault: true },
-  { id: 'betamove', name: 'Strom & Nebenkosten', type: 'expense', group: 'Fixkosten', isDefault: true },
+  { name: 'Wohnen (Miete/Nebenkosten)', type: 'expense', group_name: 'Fixkosten' },
+  { name: 'Strom & Nebenkosten', type: 'expense', group_name: 'Fixkosten' },
 
   // Ausgaben – variabel
-  { id: 'lebensmittel', name: 'Lebensmitteleinkäufe', type: 'expense', group: 'Variable Kosten', isDefault: true },
-  { id: 'haushalt', name: 'Haushalt und Co.', type: 'expense', group: 'Variable Kosten', isDefault: true },
-  { id: 'reisen', name: 'Reisen', type: 'expense', group: 'Variable Kosten', isDefault: true },
-  { id: 'ausgehen', name: 'Ausgehen', type: 'expense', group: 'Variable Kosten', isDefault: true },
-  { id: 'sport', name: 'Sport (Hobby + Klettern)', type: 'expense', group: 'Variable Kosten', isDefault: true },
-  { id: 'sonstiges', name: 'Sonstiges (Variabel)', type: 'expense', group: 'Variable Kosten', isDefault: true },
-  { id: 'rueckzahlungen', name: 'Rückzahlungen', type: 'expense', group: 'Variable Kosten', isDefault: true },
+  { name: 'Lebensmitteleinkäufe', type: 'expense', group_name: 'Variable Kosten' },
+  { name: 'Haushalt und Co.', type: 'expense', group_name: 'Variable Kosten' },
+  { name: 'Reisen', type: 'expense', group_name: 'Variable Kosten' },
+  { name: 'Ausgehen', type: 'expense', group_name: 'Variable Kosten' },
+  { name: 'Sport (Hobby + Klettern)', type: 'expense', group_name: 'Variable Kosten' },
+  { name: 'Sonstiges (Variabel)', type: 'expense', group_name: 'Variable Kosten' },
+  { name: 'Rückzahlungen', type: 'expense', group_name: 'Variable Kosten' },
 
   // Sparen / Erspartes
-  { id: 'consors', name: 'Consors', type: 'expense', group: 'Sparen', isDefault: true },
-  { id: 'taures', name: 'Taures', type: 'expense', group: 'Sparen', isDefault: true },
-  { id: 'altersvorsorge', name: 'Altersvorsorge', type: 'expense', group: 'Sparen', isDefault: true },
-  { id: 'bondora', name: 'Bondora', type: 'expense', group: 'Sparen', isDefault: true },
+  { name: 'Consors', type: 'expense', group_name: 'Sparen' },
+  { name: 'Taures', type: 'expense', group_name: 'Sparen' },
+  { name: 'Altersvorsorge', type: 'expense', group_name: 'Sparen' },
+  { name: 'Bondora', type: 'expense', group_name: 'Sparen' },
 ];

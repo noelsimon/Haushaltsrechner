@@ -15,9 +15,33 @@ Finanzfluss-Übersicht).
   vorbelegt (Lebensmittel, Wohnen, Reisen, Ausgehen, Sport, Sparen –
   Consors/Taures/Altersvorsorge/Bondora, …) und lassen sich um eigene
   Kategorien erweitern.
+- **Benutzerkonten**: Registrierung per E-Mail/Passwort mit
+  Bestätigungs-E-Mail (via Supabase Auth). Jeder Account sieht ausschließlich
+  seine eigenen Kategorien und Buchungen.
 
-Alle Daten werden lokal im Browser gespeichert (`localStorage`) – es gibt
-keinen Server und keine Anmeldung.
+Login und Daten laufen über [Supabase](https://supabase.com) (Postgres +
+Auth). Die Datenbank ist per Row Level Security so abgesichert, dass jede
+Zeile nur vom eigenen Konto gelesen/geschrieben werden kann – der im Client
+verwendete Publishable-Key ist dafür ausgelegt, öffentlich zu sein.
+
+## Supabase einrichten
+
+Einmalig nötig, bevor sich jemand registrieren kann:
+
+1. Im Supabase-Projekt → **SQL Editor** → neue Query → Inhalt von
+   [`supabase/schema.sql`](./supabase/schema.sql) einfügen und ausführen.
+   Das legt die Tabellen `categories`/`transactions` inkl. Row-Level-Security
+   an, damit jedes Konto nur seine eigenen Daten sieht.
+2. **Authentication → Providers → Email**: "Confirm email" aktiviert lassen
+   (Standard), damit nach der Registrierung eine Bestätigungs-E-Mail
+   verschickt wird.
+3. **Authentication → URL Configuration**: Site URL auf die GitHub-Pages-URL
+   setzen (z.B. `https://<benutzername>.github.io/Haushaltsrechner/`), damit
+   der Bestätigungslink in der E-Mail zurück auf die App führt.
+
+Projekt-URL und Publishable-Key stehen in `src/lib/supabaseClient.ts`. Der
+Publishable-Key ist bewusst öffentlich (kein Secret) – der eigentliche Schutz
+kommt von den RLS-Policies in `supabase/schema.sql`.
 
 ## Entwicklung
 
